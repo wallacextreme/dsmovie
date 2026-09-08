@@ -1,0 +1,19 @@
+﻿# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDE & Editor
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Build outputs & Dependencies
+node_modules/
+dist/
+build/
+target/
+*.log
