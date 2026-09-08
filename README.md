@@ -1,162 +1,120 @@
-﻿# DSMovie — Sistema de Avaliação de Filmes
+﻿# DSMovie — Catálogo e Interface de Avaliação de Filmes
 
 [![React](https://img.shields.io/badge/React-17.0.2-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.4.2-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.6.4-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Java](https://img.shields.io/badge/Java-17-ED8B00?style=flat-square&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.1.3-7952B3?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Portfolio_Project-blue?style=flat-square)](#)
 
-Aplicação web full stack para catálogo e avaliação colaborativa de filmes, desenvolvida com front-end SPA em **React + TypeScript** e back-end em **Java + Spring Boot**.
+Aplicação web desenvolvida com front-end SPA em **React 17 + TypeScript** e infraestrutura back-end em **Java 17 + Spring Boot 2.6**, estruturada para catálogo e avaliação de filmes.
 
 ---
 
 ## 🎯 Objetivo
 
-O **DSMovie** resolve a necessidade de centralizar a consulta e avaliação pública de obras cinematográficas. O usuário pode navegar por títulos paginados, visualizar médias de notas calculadas dinamicamente com estrelas fracionadas e enviar novas avaliações associadas ao seu endereço de e-mail.
+Criar uma aplicação web para navegação e pontuação de títulos cinematográficos, exercitando a criação de componentes desacoplados no front-end React com TypeScript, rotas dinâmicas e infraestrutura inicial de microsserviço Spring Boot com configuração de CORS e segurança.
 
 ---
 
-## ✨ Principais Funcionalidades
+## ✨ Funcionalidades Implementadas
 
-- **Catálogo de Filmes**: Listagem responsiva com paginação e carregamento de cards de filmes.
-- **Sistema de Pontuação Visual**: Renderização dinâmica de avaliação em estrelas (cheia, meia ou vazia) de acordo com a pontuação numérica.
-- **Formulário de Avaliação**: Interface dedicada para envio de nota (1 a 5) vinculada ao e-mail do avaliador.
-- **Segurança e CORS**: Back-end com configuração de segurança (`SecurityConfig`) e liberação de CORS para integração com o cliente React.
-- **Navegação SPA**: Roteamento fluído com **React Router v6**.
+### Front-end (React + TypeScript)
+- **Componente de Pontuação em Estrelas (`MovieStars`)**: Algoritmo visual que avalia a nota numérica do filme e renderiza estrelas fracionadas (cheia, meia ou vazia) via SVGs vetoriais.
+- **Card de Exibição (`MovieCard` & `MovieScore`)**: Apresentação de poster, título, contagem de votos e botão para avaliação.
+- **Roteamento Dinâmico (`React Router v6`)**: Navegação SPA entre a tela de listagem (`Listing`) e o formulário de avaliação (`Form/:movieId`).
+- **Formulário de Avaliação (`Form`)**: Campos para preenchimento de e-mail e seleção de nota (1 a 5).
+- **Barra de Navegação e Paginação**: Componentes visuais de cabeçalho (`Navbar`) e controle paginado (`Pagination`).
 
----
-
-## 🧰 Stack Tecnológica
-
-### Front-end
-- **React 17** (Single Page Application baseada em componentes funcionais)
-- **TypeScript 4** (Tipagem estática em componentes, rotas e propriedades)
-- **React Router DOM v6** (Gerenciamento de rotas e parâmetros de URL)
-- **Bootstrap 5 & Custom CSS** (Design responsivo e layout em grid)
-- **Testing Library & Jest** (Infraestrutura configurada para testes de UI)
-
-### Back-end
-- **Java 17**
-- **Spring Boot 2.6.4**
-  - `spring-boot-starter-web` (REST APIs)
-  - `spring-boot-starter-data-jpa` (Mapeamento Objeto-Relacional e persistência)
-  - `spring-boot-starter-security` (Configuração de endpoints e políticas de CORS)
-- **Bancos de Dados**:
-  - **H2 Database** (Runtime / Ambiente de desenvolvimento e testes locais)
-  - **PostgreSQL** (Driver configurado para produção)
-- **Maven** (Gerenciamento de dependências e automação de build)
+### Back-end (Spring Boot)
+- **Configuração de Segurança e CORS (`SecurityConfig.java`)**: Configuração de filtros de segurança HTTP baseada em `WebSecurityConfigurerAdapter` com suporte a CORS (`CorsConfigurationSource`) habilitado para comunicação com o front-end.
+- **Estrutura de Dependências (`pom.xml`)**: Configurado com Spring Data JPA, Spring Security, Spring Web, runtime H2 Database e driver PostgreSQL.
 
 ---
 
-## 🏗️ Arquitetura
-
-```text
-Cliente (Browser)
-   │
-   ▼
-SPA React (TypeScript + React Router + Bootstrap 5)
-   │ [Requisições HTTP / REST API]
-   ▼
-Spring Boot Application
-   │
-   ├── SecurityConfig (Filtros CORS e políticas de acesso)
-   ├── Controllers / REST Endpoints
-   ├── Services (Cálculo de médias e regras de negócio)
-   └── Repositories (Spring Data JPA)
-         │
-         ▼
-   Database (H2 em dev / PostgreSQL em prod)
-```
-
----
-
-## 📁 Estrutura do Projeto
+## 🏗️ Arquitetura do Projeto
 
 ```text
 dsmovie/
 ├── backend/
 │   ├── src/main/java/com/devsuperior/dsmovie/
 │   │   ├── config/
-│   │   │   └── SecurityConfig.java       # Configuração de CORS e segurança
+│   │   │   └── SecurityConfig.java       # Políticas de CORS e liberação de endpoints
 │   │   └── DsmovieApplication.java       # Ponto de entrada Spring Boot
 │   ├── src/main/resources/
-│   │   └── application.properties        # Propriedades de ambiente
-│   └── pom.xml                           # Dependências Maven
+│   │   └── application.properties        # Configurações de ambiente e profiles
+│   ├── src/test/java/.../
+│   │   └── DsmovieApplicationTests.java  # Teste de inicialização do contexto
+│   ├── mvnw / mvnw.cmd                   # Maven Wrapper executável
+│   └── pom.xml                           # Gerenciamento de dependências Maven
 │
 └── frontend/
     ├── src/
-    │   ├── assets/img/                   # SVGs de estrelas e navegação
+    │   ├── assets/img/                   # SVGs vetoriais de estrelas e ícones
     │   ├── components/
-    │   │   ├── MovieCard/                # Card com poster, título e ação
-    │   │   ├── MovieScore/               # Exibição numérica e total de votos
-    │   │   ├── MovieStars/               # Renderização dinâmica das estrelas
+    │   │   ├── MovieCard/                # Card com poster e botão de avaliação
+    │   │   ├── MovieScore/               # Pontuação numérica e total de votos
+    │   │   ├── MovieStars/               # Renderização dinâmica de estrelas
     │   │   ├── Navbar/                   # Barra de navegação com link de contato
-    │   │   └── Pagination/               # Controle de paginação anterior/próxima
+    │   │   └── Pagination/               # Componente de controle de páginas
     │   ├── pages/
-    │   │   ├── Form/                     # Página de formulário de avaliação
-    │   │   └── Listing/                  # Listagem principal de títulos
-    │   ├── App.tsx                       # Definição das rotas com React Router
-    │   └── index.tsx                     # Bootstrap do React no DOM
+    │   │   ├── Form/                     # Interface do formulário de avaliação
+    │   │   └── Listing/                  # Listagem em grid responsivo com cards
+    │   ├── App.tsx                       # Configuração de rotas com React Router v6
+    │   └── index.tsx                     # Ponto de montagem da SPA React no DOM
     └── package.json                      # Dependências npm
 ```
 
 ---
 
-## 🚀 Instalação e Execução
+## 🚀 Como Executar
 
 ### Pré-requisitos
 - **Java 17 JDK** instalado
 - **Node.js 16+** e **npm** instalados
-- **Maven** (opcional, wrapper incluído no projeto)
 
-### 1. Executando o Back-end
+### 1. Back-end (Spring Boot)
 ```bash
 cd backend
 
 # No Windows PowerShell:
+./mvnw.cmd spring-boot:run
+
+# Ou se possuir Maven instalado globalmente:
 mvn spring-boot:run
-
-# Ou utilizando o Maven Wrapper:
-./mvnw spring-boot:run
 ```
-O servidor iniciará em `http://localhost:8080`.
+O servidor inicializará na porta padrão `8080`.
 
-### 2. Executando o Front-end
-Em outro terminal:
+### 2. Front-end (React)
+Em um novo terminal:
 ```bash
 cd frontend
 
 # Instalar dependências
 npm install
 
-# Iniciar servidor de desenvolvimento
+# Iniciar aplicação em modo de desenvolvimento
 npm start
 ```
-A aplicação abrirá no navegador em `http://localhost:3000`.
+Acesse `http://localhost:3000` no navegador.
 
 ---
 
 ## 🧪 Testes
 
-### Front-end
-```bash
-cd frontend
-npm test -- --watchAll=false
-```
-
 ### Back-end
 ```bash
 cd backend
-mvn test
+./mvnw.cmd test
 ```
+*Executa o teste de integridade do contexto Spring Boot (`contextLoads`).*
 
 ---
 
 ## 📌 Status
 
-- **Status**: Concluído / Projeto de Portfólio.
-- **Próximos passos**: Integração contínua (CI/CD) e deploy em nuvem (Railway/Render/Vercel).
+- **Maturidade**: Projeto de Portfólio / Estudo Avançado.
+- **Competências em evidência**: React 17 com TypeScript, React Router v6, Bootstrap 5, configuração de segurança em Spring Boot com CORS e Maven.
 
 ---
 
